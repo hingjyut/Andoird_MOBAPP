@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+    android:layout_margin="10dp"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/nom_label"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/surname"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <EditText
+            android:id="@+id/surname"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:hint="Family name" />
+
+        <Button
+            android:id="@+id/surname_bt"
+            android:text="edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="go2LastNameEdit"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/prenom_label"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:hint="First name" />
+
+        <Button
+            android:id="@+id/first_name_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="go2firstNameView"
+            android:text="view"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/birthday_tv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/birthday"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+<!--        <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="@string/pick_time_btn"-->
+<!--            android:id="@+id/birthday_btn"-->
+<!--            android:onClick="selectDate"-->
+<!--            />-->
+        <EditText
+            android:id="@+id/birthday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="jj/mm/yyyy"
+            android:inputType="none"
+            android:onClick="go2DateActivity"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/county_tv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/county"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <Spinner
+            android:entries="@array/departements"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/county_spinner"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/city_tv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/city_of_birth"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <EditText
+            android:id="@+id/city_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="city of birth"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/email_tv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/email"
+            android:inputType="textEmailAddress"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
+
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Email" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/phone_tv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="@string/phone"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:hint="+33" />
+
+        <Button
+            android:id="@+id/add_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:onClick="addPhoneNumber"
+            />
+
+
+    </LinearLayout>
+
+
+<!--    <Button-->
+<!--        android:id="@+id/validate"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/validate"-->
+<!--        android:onClick="validateAction"-->
+<!--        />-->
+
+    <Button
+        android:id="@+id/validate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/validate"
+        android:onClick="callDisplayActivity"
+        />
+
+
+</LinearLayout>

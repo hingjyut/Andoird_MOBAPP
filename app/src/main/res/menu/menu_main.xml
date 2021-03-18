@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/resetAction"
+        android:title="@string/reset_action"
+        android:onClick="resetAction">
+    </item>
+
+    <item android:id="@+id/countActivity"
+        android:title="Search city"
+        android:onClick="searchCity">
+    </item>
+
+    <item android:id="@+id/shareInfoActivity"
+        android:title="Share"
+        android:onClick="shareInfo">
+    </item>
+
+</menu>
