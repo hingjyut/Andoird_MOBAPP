@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/mainLayout"
+    android:id="@+id/main_fragment"
     android:layout_margin="10dp"
-    tools:context=".MainActivity">
-
+    tools:context=".MainFragment">
 
     <LinearLayout
         android:id="@+id/name_layout"
@@ -28,12 +27,19 @@
             android:inputType="text"
             android:hint="Family name" />
 
+<!--        <Button-->
+<!--            android:id="@+id/surname_bt"-->
+<!--            android:text="edit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:onClick="go2LastNameEdit"-->
+<!--            />-->
+
         <Button
             android:id="@+id/surname_bt"
             android:text="edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="go2LastNameEdit"
             />
 
     </LinearLayout>
@@ -56,13 +62,12 @@
             android:inputType="text"
             android:hint="First name" />
 
-        <Button
-            android:id="@+id/first_name_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:onClick="go2firstNameView"
-            android:text="view"
-            />
+<!--        <Button-->
+<!--            android:id="@+id/first_name_bt"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="view"-->
+<!--            />-->
 
     </LinearLayout>
 
@@ -77,20 +82,19 @@
             android:text="@string/birthday"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-<!--        <Button-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:text="@string/pick_time_btn"-->
-<!--            android:id="@+id/birthday_btn"-->
-<!--            android:onClick="selectDate"-->
-<!--            />-->
+        <!--        <Button-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:text="@string/pick_time_btn"-->
+        <!--            android:id="@+id/birthday_btn"-->
+        <!--            android:onClick="selectDate"-->
+        <!--            />-->
+
         <EditText
             android:id="@+id/birthday"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="jj/mm/yyyy"
-            android:inputType="none"
-            android:onClick="go2DateActivity"
             />
 
     </LinearLayout>
@@ -174,33 +178,33 @@
             android:layout_height="match_parent"
             android:hint="+33" />
 
-        <Button
-            android:id="@+id/add_phone_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            android:onClick="addPhoneNumber"
-            />
+<!--        <Button-->
+<!--            android:id="@+id/add_phone_number"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/add"-->
+<!--            android:onClick="addPhoneNumber"-->
+<!--            />-->
 
 
     </LinearLayout>
 
+
+    <!--    <Button-->
+    <!--        android:id="@+id/validate"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/validate"-->
+    <!--        android:onClick="validateAction"-->
+    <!--        />-->
 
 <!--    <Button-->
 <!--        android:id="@+id/validate"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:text="@string/validate"-->
-<!--        android:onClick="validateAction"-->
+<!--        android:onClick="callDisplayActivity"-->
 <!--        />-->
-
-    <Button
-        android:id="@+id/validate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/validate"
-        android:onClick="callDisplayActivity"
-        />
 
 
 </LinearLayout>
