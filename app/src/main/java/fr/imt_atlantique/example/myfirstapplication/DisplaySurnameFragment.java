@@ -49,4 +49,3 @@ public class DisplaySurnameFragment extends Fragment {
         return this.newName;
     }
 }
-

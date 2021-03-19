@@ -57,6 +57,7 @@ public class DisplayDateFragment extends Fragment implements DatePickerDialog.On
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        month = month+1;
         String message = dayOfMonth + "/" + month + "/" + year;
         dateCallback(message);
     }

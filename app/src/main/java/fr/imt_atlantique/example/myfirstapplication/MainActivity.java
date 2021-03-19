@@ -11,11 +11,7 @@ import fr.imt_atlantique.example.myfirstapplication.onDisplayInfo.OnDisplayInfo;
 
 public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
 
-    public static final String EXTRA_SHARE_MESSAGE = "This is a shared message";
-    public static final int BIRTHDAY_CODE = 5;
     public static final int DATE_ANSWER_CODE = 50;
-
-    public static final int SURNAME_CODE = 6;
     public static final int SURNAME_ANSWER_CODE = 60;
     private MainFragment mainFragment;
     private DisplaySurnameFragment displaySurnameFragment;
@@ -24,23 +20,25 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
     private SharedPreferences.Editor editor;
     private String surname;
     private static String preference = "preference";
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences(preference, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         if (savedInstanceState == null) {
             mainFragment = new MainFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, mainFragment).commit();
         }
-        sharedPreferences = getSharedPreferences(preference, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        surname = sharedPreferences.getString("surname", "");
     }
 
     @Override
     public void onDisplaySurname(String newName) {
         displaySurnameFragment = DisplaySurnameFragment.newInstance(newName);
+        surname = newName;
+        saveAllInputsIntoXML();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         // replace editFragment by displayFragment, so the app shows display's layout
         fragmentTransaction.replace(R.id.fragmentContainer, displaySurnameFragment);
@@ -51,21 +49,30 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
      * Save date into a xml file
      */
     public void saveAllInputsIntoXML() {
-        if (displaySurnameFragment!=null){
+        if (displaySurnameFragment != null) {
             surname = displaySurnameFragment.getNewName();
-        }else {
-            surname = "";
+        } else {
+            surname = mainFragment.getSurname();
         }
         System.out.println(surname);
         editor.putString("surname", surname);
         editor.apply();
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String date = savedInstanceState.getString("date", "");
+        String surname = savedInstanceState.getString("surname","");
+        this.date = date;
+        this.surname = surname;
+    }
+
 
     @Override
     public void onDisplayDate() {
-        displayDateFragment = new DisplayDateFragment();
         saveAllInputsIntoXML();
+        displayDateFragment = new DisplayDateFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, displayDateFragment);
         fragmentTransaction.addToBackStack(mainFragment.getClass().toString()).commit();
@@ -73,9 +80,14 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
 
     @Override
     public void onSetDate(String date) {
+        saveAllInputsIntoXML();
+        surname = sharedPreferences.getString("surname", "");
         mainFragment = MainFragment.newInstance(surname, date);
-        System.out.println(surname);
+//        System.out.println(surname);
+        this.date = date;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, mainFragment).commit();
+        fragmentTransaction.replace(R.id.fragmentContainer, mainFragment);
+        fragmentTransaction.addToBackStack(mainFragment.getClass().toString()).commit();
     }
+
 }
