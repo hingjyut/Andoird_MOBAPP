@@ -22,7 +22,7 @@
 
         <EditText
             android:id="@+id/surname"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:inputType="text"
             android:hint="Family name" />
@@ -37,7 +37,7 @@
 
         <Button
             android:id="@+id/surname_bt"
-            android:text="edit"
+            android:text="view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             />
@@ -57,7 +57,7 @@
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:inputType="text"
             android:hint="First name" />
@@ -174,7 +174,7 @@
 
         <EditText
             android:id="@+id/phone"
-            android:layout_width="170dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:hint="+33" />
 
@@ -186,17 +186,31 @@
 <!--            android:onClick="addPhoneNumber"-->
 <!--            />-->
 
+        <Button
+            android:id="@+id/add_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            />
+
 
     </LinearLayout>
 
 
-    <!--    <Button-->
-    <!--        android:id="@+id/validate"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="@string/validate"-->
-    <!--        android:onClick="validateAction"-->
-    <!--        />-->
+<!--        <Button-->
+<!--            android:id="@+id/validate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/validate"-->
+<!--            android:onClick="validateAction"-->
+<!--            />-->
+
+        <Button
+            android:id="@+id/validate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/validate"
+            />
 
 <!--    <Button-->
 <!--        android:id="@+id/validate"-->
