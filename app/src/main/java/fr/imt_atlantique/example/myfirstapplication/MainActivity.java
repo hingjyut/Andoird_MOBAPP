@@ -31,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Log.i("Start camera","onCreate mode");
+                    Log.i("Start camera", "onCreate mode");
                     startCamera();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
             // external
             case REQUEST_IMAGE_CAPTURE:
-                if (resultCode==Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     Log.d(TAG, "requestCode: " + requestCode + "  resultCode: " + resultCode + "  data：" + data);
                     Bitmap bitmap = null;
                     try {
@@ -206,42 +207,41 @@ public class MainActivity extends AppCompatActivity {
                                 currentPhotoUri
                         );
 
-
-                        //new lines
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);//压缩50%
-                        ByteArrayInputStream isBm = new ByteArrayInputStream(outputStream.toByteArray());//把压缩后的数据存放到ByteArrayInputStream中
-                        bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
-
-                        System.out.println(bitmap.getHeight());
-                        System.out.println(bitmap.getWidth());
-
-                        imageView.setImageBitmap(bitmap);   // shows photo on the screen
+//                        setPic();   // shows photo on the screen
+                        imageView.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    galleryAddPic();
                 }
-                galleryAddPic();
+
                 break;
 
         }
     }
 
-//    // 压缩文件大小但图片像素不变
-//    private Bitmap compressImage(Bitmap image) {
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        image.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-//        int options = 50;
-//        while (outputStream.toByteArray().length / 1024>500) {  //循环判断如果压缩后图片是否大于500kb,大于继续压缩
-//            outputStream.reset(); //重置baos即清空baos
-//            image.compress(Bitmap.CompressFormat.JPEG, options, outputStream);//这里压缩options%，把压缩后的数据存放到baos中
-//            options -= 10; //每次都减少10
-//        }
-//        ByteArrayInputStream isBm = new ByteArrayInputStream(outputStream.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
-//        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
-//        return bitmap;
-//    }
+    private void setPic() {
+        // Get the dimensions of the View
+        int targetW = imageView.getWidth();
+        int targetH = imageView.getHeight();
 
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
+        imageView.setImageBitmap(bitmap);
+    }
 
     private void galleryAddPic() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
         currentPhotoName = imageFileName;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        System.out.println(storageDir.toString()+"storage dir");
+        System.out.println(storageDir.toString() + "storage dir");
         if (!(storageDir.exists())) {
             storageDir.mkdir();
         }
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-        public static File createFile(File storageDir, String folderName) throws IOException {
+    public static File createFile(File storageDir, String folderName) throws IOException {
         // Create a file name
         String fileName = createUniqueFileName();
         // Use an existing directory or create it if necessary
@@ -302,9 +302,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * Récupération des informations saisies dans une activité lancée par intent
+     *
      * @param view
      */
     public void go2LastNameEdit(View view) {
@@ -313,8 +313,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Activity", "go to last name edit matches success");
             intent.addCategory("EDITNAME");
             Set<String> categories = intent.getCategories();
-            for (String s:categories){
-                System.out.println("category is: "+s);
+            for (String s : categories) {
+                System.out.println("category is: " + s);
             }
             intent.putExtra("last name", surnameEt.getText().toString());
 
@@ -327,9 +327,10 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Numérotation effective d’un numéro de téléphone
      * line 127 onClick function
+     *
      * @param phoneNumber
      */
-    public void createALinearLayoutWithDeleteAndPhoneNumberCallBtn(String phoneNumber){
+    public void createALinearLayoutWithDeleteAndPhoneNumberCallBtn(String phoneNumber) {
         LinearLayout newLinearLayout = new LinearLayout(this);
         Button callButton = new Button(this);
 
@@ -353,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
 //                    go2PhoneDialActivity(phoneNumber);
                     Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:+33"+phoneNumber));
+                    intent.setData(Uri.parse("tel:+33" + phoneNumber));
                     startActivity(intent);
                 }
             });
@@ -370,7 +371,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Go to another activity by using implicit intent
-     *
      */
     public void go2firstNameView(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Implementation of Parcelable
-     *
+     * <p>
      * 1. Lancement d’une activité d’affichage des champs saisis par intent explicite
      * 3. Usage des Parcelable
      */
@@ -444,7 +444,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * It's bound with "add" button, adds a new LinearLayout contains a phone number and a delete button with each click
-     *
      */
     public void addPhoneNumber(View v) {
         String phoneNumber = phoneEt.getText().toString();
