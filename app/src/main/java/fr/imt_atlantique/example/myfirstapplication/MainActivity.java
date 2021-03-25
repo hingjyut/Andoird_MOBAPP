@@ -1,12 +1,17 @@
 package fr.imt_atlantique.example.myfirstapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import fr.imt_atlantique.example.myfirstapplication.onDisplayInfo.OnDisplayInfo;
 
@@ -20,19 +25,28 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private String surname;
-    private static String preference = "preference";
+    private static String SHARED_FILE = "preference";
     private String date;
+    private Map<String, String> cache = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = getSharedPreferences(preference, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_FILE, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         if (savedInstanceState == null) {
             mainFragment = new MainFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, mainFragment).commit();
         }
+        String surname = sharedPreferences.getString("surname", "");
+//        String firstName = sharedPreferences.getString("first name", "");
+        String birthday = sharedPreferences.getString("birthday", "");
+        String uri = sharedPreferences.getString("uri", null);
+        mainFragment = MainFragment.newInstance(surname, birthday, uri);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, mainFragment)
+                .commit();
     }
 
     @Override
@@ -50,13 +64,11 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
      * Save date into a xml file
      */
     public void saveAllInputsIntoXML() {
-        if (displaySurnameFragment != null) {
-            surname = displaySurnameFragment.getNewName();
-        } else {
-            surname = mainFragment.getSurname();
-        }
-        System.out.println(surname);
-        editor.putString("surname", surname);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("surname", mainFragment.getSurname());
+        editor.putString("birthday", mainFragment.getBirthday());
+//        editor.putString(URI_KEY, editInformationFragment.getPhotoUri().getPath());
+//        editor.putString(URI_KEY, editInformationFragment.getCurrentPhotoPath());
         editor.apply();
     }
 
@@ -72,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
 
     @Override
     public void onDisplayDate() {
-        saveAllInputsIntoXML();
+//        saveAllInputsIntoXML();
         displayDateFragment = new DisplayDateFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, displayDateFragment);
@@ -90,6 +102,19 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
         fragmentTransaction.replace(R.id.fragmentContainer, mainFragment);
         fragmentTransaction.addToBackStack(mainFragment.getClass().toString()).commit();
     }
+
+    @Override
+    protected void onStop() {
+        saveAllInputsIntoXML();
+        super.onStop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveAllInputsIntoXML();
+    }
+
 
     @Override
     protected void onStart() {
@@ -113,12 +138,6 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
     protected  void onPause() {
         super.onPause();
         Log.i("Lifecycle", "onPause method");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("Lifecycle", "onStop method");
     }
 
     @Override

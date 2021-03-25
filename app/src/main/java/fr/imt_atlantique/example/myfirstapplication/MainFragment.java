@@ -81,11 +81,6 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * 1. Afficher nom dans une autre fragment
-     * 2. Display sa date ou modifier le departement
-     */
-
-    /**
      *
      *
      * @param inflater
@@ -149,7 +144,11 @@ public class MainFragment extends Fragment {
         return surnameEt.getText().toString();
     }
 
-    public static MainFragment newInstance(String surname, String date){
+    public String getBirthday(){
+        return birthdayEt.getText().toString();
+    }
+
+    public static MainFragment newInstance(String surname, String date, String uri){
         MainFragment mainFragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString("surname", surname);
