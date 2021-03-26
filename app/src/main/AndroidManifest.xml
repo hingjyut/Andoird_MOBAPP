@@ -18,8 +18,6 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".CountActivity"></activity>-->
-
         <activity android:name=".DisplayActivity"></activity>
 
         <activity android:name=".DateActivity" >

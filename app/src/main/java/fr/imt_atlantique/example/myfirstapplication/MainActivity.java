@@ -20,19 +20,27 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private String surname;
-    private static String preference = "preference";
     private String date;
+    private static final String PREFERENCE = "preference";
+    private static final String SURNAME_KEY = "surname key";
+    private static final String BIRTHDAY_KEY = "birthday key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = getSharedPreferences(preference, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPreferences = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
         if (savedInstanceState == null) {
             mainFragment = new MainFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, mainFragment).commit();
         }
+//        else {
+//            date = sharedPreferences.getString(BIRTHDAY_KEY, "");
+//            surname = sharedPreferences.getString(SURNAME_KEY, "");
+//            mainFragment = MainFragment.newInstance(surname, date);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, mainFragment).commit();
+//        }
+
     }
 
     @Override
@@ -46,30 +54,6 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
         fragmentTransaction.addToBackStack(mainFragment.getClass().toString()).commit();
     }
 
-    /**
-     * Save date into a xml file
-     */
-    public void saveAllInputsIntoXML() {
-        if (displaySurnameFragment != null) {
-            surname = displaySurnameFragment.getNewName();
-        } else {
-            surname = mainFragment.getSurname();
-        }
-        System.out.println(surname);
-        editor.putString("surname", surname);
-        editor.apply();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        String date = savedInstanceState.getString("date", "");
-        String surname = savedInstanceState.getString("surname","");
-        this.date = date;
-        this.surname = surname;
-    }
-
-
     @Override
     public void onDisplayDate() {
         saveAllInputsIntoXML();
@@ -81,15 +65,45 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
 
     @Override
     public void onSetDate(String date) {
-        saveAllInputsIntoXML();
-        surname = sharedPreferences.getString("surname", "");
         mainFragment = MainFragment.newInstance(surname, date);
-//        System.out.println(surname);
-        this.date = date;
+//        this.date = date;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainer, mainFragment);
         fragmentTransaction.addToBackStack(mainFragment.getClass().toString()).commit();
     }
+
+    /**
+     * Save date into a xml file
+     */
+    public void saveAllInputsIntoXML() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(BIRTHDAY_KEY, mainFragment.getBirthday());
+        editor.putString(SURNAME_KEY, mainFragment.getSurname());
+        editor.apply();
+    }
+
+    @Override
+    protected void onStop() {
+        saveAllInputsIntoXML();
+        super.onStop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        saveAllInputsIntoXML();
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        String date = savedInstanceState.getString("date", "");
+        String surname = savedInstanceState.getString("surname","");
+        this.date = date;
+        this.surname = surname;
+    }
+
 
     @Override
     protected void onStart() {
@@ -113,12 +127,6 @@ public class MainActivity extends AppCompatActivity implements OnDisplayInfo {
     protected  void onPause() {
         super.onPause();
         Log.i("Lifecycle", "onPause method");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("Lifecycle", "onStop method");
     }
 
     @Override

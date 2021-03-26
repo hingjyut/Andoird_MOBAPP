@@ -53,7 +53,6 @@ public class MainFragment extends Fragment {
 
     private OnDisplayInfo mainActivity;
 
-//    public static final String DATE_ARG = "date args";
     private String dateArgs;
     private String surname;
 
@@ -68,8 +67,8 @@ public class MainFragment extends Fragment {
 //        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
-            dateArgs = getArguments().getString("date","");
             surname = getArguments().getString("surname","");
+            dateArgs = getArguments().getString("date","");
             System.out.println("in main fragment onCreate "+ dateArgs + " " + surname);
         }
 
@@ -101,16 +100,9 @@ public class MainFragment extends Fragment {
         surnameEt = rootView.findViewById(R.id.surname);
         birthdayEt = rootView.findViewById(R.id.birthday);
 
-        // Other views
-//        nameEt = rootView.findViewById(R.id.name);
-//        emailEt = rootView.findViewById(R.id.email);
-//        phoneEt = rootView.findViewById(R.id.phone);
-//        countySpn = rootView.findViewById(R.id.county_spinner);
-//
         Log.i("Lifecycle", "onCreate method");
 
-        surnameEt.setText(surname);
-        birthdayEt.setText(dateArgs);
+
         return rootView;
     }
 
@@ -126,6 +118,14 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState ){
+
+        if (surname!=null){
+            surnameEt.setText(surname);
+        }
+        if (dateArgs!=null){
+            birthdayEt.setText(dateArgs);
+        }
+
         if (displaySurnameBtn!=null){
 
             displaySurnameBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +133,10 @@ public class MainFragment extends Fragment {
                 public void onClick(View v) {
                     mainActivity.onDisplaySurname(surnameEt.getText().toString());
                 }
+
             });
         }
+
         if (birthdayEt!=null){
             birthdayEt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,6 +149,10 @@ public class MainFragment extends Fragment {
 
     public String getSurname(){
         return surnameEt.getText().toString();
+    }
+
+    public String getBirthday(){
+        return birthdayEt.getText().toString();
     }
 
     public static MainFragment newInstance(String surname, String date){
