@@ -4,8 +4,8 @@
         name="external"
         path="." />
     <external-files-path
-        name="external_files"
-        path="." />
+        name="change_files_pictures_to_external_files"
+        path="./Pictures" />
     <cache-path
         name="cache"
         path="." />
@@ -15,4 +15,6 @@
     <files-path
         name="files"
         path="." />
+
+
 </paths>

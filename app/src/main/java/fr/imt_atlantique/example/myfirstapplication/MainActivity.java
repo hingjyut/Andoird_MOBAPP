@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startCamera() throws IOException {
 
-//        //Internal
+        //Internal
 //        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 currentPhotoUri = FileProvider.getUriForFile(this,
                         "fr.imt_atlantique.example.myfirstapplication.provider",
                         currentPhotoFile);
+                System.out.println(currentPhotoUri.toString()+"uri");
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, currentPhotoUri);   // Define photo's storage location
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);       // Starts to take photo
             }
@@ -185,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 //                        Bundle extras = data.getExtras();
 //                        bitmap = (Bitmap) extras.get("data");
 //                        File thumbnailFile = createFile(getFilesDir(), "thumbnails");
+//                        System.out.println(thumbnailFile.toString());
 //                        FileOutputStream fos = new FileOutputStream(thumbnailFile);
 //                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 //                        fos.flush();
@@ -271,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        System.out.println(currentPhotoPath.toString()+"path");
         return image;
     }
 
